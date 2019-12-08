@@ -1,4 +1,10 @@
 # debiantomcat
 
-debian + openjdk11 + tomcat for arm/v7/l (raspberry pi 4)
+debian + openjdk11 + tomcat for linux/arm/v7 (raspberry pi 4)
+
+### tags
+
+* debian10-openjdk11-tomcat9
+
+
 
