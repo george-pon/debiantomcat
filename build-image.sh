@@ -39,9 +39,26 @@ function f_docker_build() {
         BUILD_OPT="$BUILD_OPT  --no-cache=$no_cache"
     fi
 
-    echo docker build -t ${IMAGE_NAME}:${TAG_CAR} .
-    $SUDO_DOCKER docker build $BUILD_OPT -t ${IMAGE_NAME}:${TAG_CAR} .
-    RC=$?
+    if [ docker buildx ls 1>/dev/null 2>/dev/null ]; then
+	# docker buildx is available
+        PLATOPT=
+        MACHINE=$( uname -m )
+        case $MACHINE in
+	 x86_64) PLATOPT='--platform=linux/amd64' ;;
+	 armv7l) PLATOPT='--platform=linux/arm/v7' ;;
+        esac
+        export DOCKER_BUILDKIT=1
+	set -x
+        $SUDO_DOCKER docker buildx build $BUILD_OPT -t ${IMAGE_NAME}:${TAG_CAR} $PLATOPT  .
+        RC=$?
+	set +x
+    else
+	set -x
+        $SUDO_DOCKER docker build $BUILD_OPT -t ${IMAGE_NAME}:${TAG_CAR} .
+        RC=$?
+	set +x
+    fi
+
     if [ $RC -ne 0 ]; then
         echo "ERROR: docker build failed."
         return 1
