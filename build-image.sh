@@ -39,7 +39,7 @@ function f_docker_build() {
         BUILD_OPT="$BUILD_OPT  --no-cache=$no_cache"
     fi
 
-    if [ docker buildx ls 1>/dev/null 2>/dev/null ]; then
+    if docker buildx ls 1>/dev/null 2>/dev/null ; then
 	# docker buildx is available
         PLATOPT=
         MACHINE=$( uname -m )
