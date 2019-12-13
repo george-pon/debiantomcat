@@ -13,8 +13,11 @@ function f_docker_build() {
     TAG_LIST=$(awk '/^ENV DEBIANTOMCAT_VERSION/ {print $3;}' Dockerfile)
     TAG_CAR=$(car $TAG_LIST)
     TAG_CDR=$(cdr $TAG_LIST)
-    echo $TAG_CDR
-    IMAGE_NAME=${PREFIX}$(awk '/^ENV DEBIANTOMCAT_IMAGE/ {print $3;}' Dockerfile)
+    echo IMAGE_PREFIX is $IMAGE_PREFIX
+    echo TAG_CDR is $TAG_CDR
+    local MACHINE=$( uname -m )
+    echo MACHINE is $MACHINE
+    IMAGE_NAME=${IMAGE_PREFIX}$(awk '/^ENV DEBIANTOMCAT_IMAGE/ {print $3;}' Dockerfile)
 
     if [ ! -z "$HTTP_PROXY" ]; then
         BUILD_OPT="$BUILD_OPT  --build-arg HTTP_PROXY=$HTTP_PROXY"
