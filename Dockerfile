@@ -1,9 +1,8 @@
 FROM debian:buster
 
-ENV DEBIANTOMCAT_VERSION build-target
 ENV DEBIANTOMCAT_VERSION latest
 ENV DEBIANTOMCAT_VERSION debian10-openjdk11-tomcat9
-ENV DEBIANTOMCAT_IMAGE debiantomcat
+ENV DEBIANTOMCAT_IMAGE georgesan/debiantomcat
 
 ENV DEBIAN_FRONTEND noninteractive
 
