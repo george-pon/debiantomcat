@@ -61,7 +61,7 @@ function f_docker_build() {
                 echo "ERROR: docker build failed."
                 return 1
             fi
-	done
+        done
     else
         echo $SUDO_DOCKER docker build $BUILD_OPT -t ${IMAGE_NAME}:${TAG_CAR} .
         $SUDO_DOCKER docker build $BUILD_OPT -t ${IMAGE_NAME}:${TAG_CAR} .
@@ -76,8 +76,6 @@ function f_docker_build() {
             $SUDO_DOCKER docker tag ${IMAGE_NAME}:$TAG_CAR ${IMAGE_NAME}:$i
         done
     fi
-
-
 
     return 0
 }
