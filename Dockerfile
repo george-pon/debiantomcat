@@ -29,6 +29,7 @@ RUN apt install -y \
         rsync \
         sudo \
         openjdk-11-jdk \
+	procps \
         tomcat9 \
         tcpdump \
         traceroute \
