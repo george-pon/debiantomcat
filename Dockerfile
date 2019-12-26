@@ -27,10 +27,10 @@ RUN apt install -y \
         lsof \
         netcat \
         net-tools \
+        procps \
         rsync \
         sudo \
         openjdk-11-jdk \
-	procps \
         tomcat9 \
         tcpdump \
         traceroute \
