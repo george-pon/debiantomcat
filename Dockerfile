@@ -44,6 +44,7 @@ ADD docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 ENV HOME /home/tomcat
+
 RUN mkdir -p     $HOME
 ADD bashrc       $HOME/.bashrc
 ADD bash_profile $HOME/.bash_profile
