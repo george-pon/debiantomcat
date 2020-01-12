@@ -60,6 +60,7 @@ function f_docker_build() {
         case $MACHINE in
             x86_64) PLATOPT='--platform=linux/amd64,linux/arm/v7' ;;
             armv7l) PLATOPT='--platform=linux/amd64,linux/arm/v7' ;;
+            aarch64) PLATOPT='--platform=linux/amd64,linux/arm/v7,linux/arm64' ;;
         esac
         for TAG_CAR in $TAG_LIST
         do
@@ -71,6 +72,7 @@ function f_docker_build() {
                 echo "ERROR: docker build failed."
                 return 1
             fi
+            docker buildx imagetools inspect ${IMAGE_NAME}:${TAG_CAR}
         done
     else
         export DOCKER_BUILDKIT=1
