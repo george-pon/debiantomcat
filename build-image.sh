@@ -72,6 +72,7 @@ function f_docker_build() {
                 echo "ERROR: docker build failed."
                 return 1
             fi
+            sleep 3
             docker buildx imagetools inspect ${IMAGE_NAME}:${TAG_CAR}
         done
     else
