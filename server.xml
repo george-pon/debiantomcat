@@ -159,7 +159,7 @@
              Note: The pattern used is equivalent to using pattern="common" -->
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="/proc"
                prefix="self/fd/1" suffix="" fileDateFormat="" rotatable="false"
-               pattern="%h %l %u %t &quot;%r&quot;    HTTP-Status : %s    Bytes-Sent : %b    Referer : &quot;%{Referer}i&quot;    User-Agent : &quot;%{User-Agent}i&quot;    X-FORWARDED-HOST : &quot;%{X-FORWARDED-HOST}i&quot;    X-FORWARDED-FOR : &quot;%{X-FORWARDED-FOR}i&quot;" />
+               pattern="%h %l %u %t &quot;%r&quot;    HTTP-Status : %s    Bytes-Sent : %b    Referer : &quot;%{Referer}i&quot;    User-Agent : &quot;%{User-Agent}i&quot;    X-REAL-IP : &quot;%{X-REAL-IP}i&quot;    X-FORWARDED-FOR : &quot;%{X-FORWARDED-FOR}i&quot;" />
       </Host>
     </Engine>
   </Service>
