@@ -2,6 +2,11 @@
 
 debian + openjdk11 + tomcat for linux/arm/v7 (raspberry pi 4) and linux/amd64
 
+### Dockerfile
+
+* https://github.com/george-pon/debiantomcat
+* https://github.com/george-pon/debiantomcat/blob/master/Dockerfile
+
 ### tags
 
 * latest
@@ -10,7 +15,7 @@ debian + openjdk11 + tomcat for linux/arm/v7 (raspberry pi 4) and linux/amd64
 ### arch
 
 * linux/amd64 ( x86-64 )
-* linux/arm64 ( Raspberry Pi 4 + Ubuntu 19.10 arm 64bit )
+* linux/arm64 ( Raspberry Pi 4 + Ubuntu 20.04 arm 64bit )
 * linux/arm/v7 ( Raspberry Pi 4 + RaspBian OS arm 32bit )
 
 ### how to build
