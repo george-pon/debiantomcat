@@ -43,7 +43,8 @@ RUN wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | a
     add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ && \
     apt update && \
     apt install -y adoptopenjdk-15-hotspot
-ENV JAVA_HOME $( update-alternatives --list java | head -n 1 | sed -e 's%/bin/java$%%g' )
+RUN ln -sf $( update-alternatives --list java | head -n 1 | sed -e s%/bin/java$%%g )  /opt/jvm
+ENV JAVA_HOME /opt/jvm
 
 # install Tomcat
 RUN apt install -y tomcat9
