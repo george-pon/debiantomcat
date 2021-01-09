@@ -9,9 +9,9 @@ debian + openjdk11 + tomcat for linux/arm/v7 (raspberry pi 4) and linux/amd64
 
 ### tags
 
-* latest
-* debian10-openjdk11-tomcat9
-* monthly202011
+* debian10-adoptopenjdk15-tomcat9
+
+* debian10-openjdk11-tomcat9, latest, monthly202101
 
 ### arch
 
