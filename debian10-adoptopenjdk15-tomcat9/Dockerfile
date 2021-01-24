@@ -39,10 +39,15 @@ RUN apt install -y \
     && apt clean all
 
 # install Java
-RUN wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add - && \
-    add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ && \
-    apt update && \
-    apt install -y adoptopenjdk-15-hotspot
+
+
+RUN apt-get install wget apt-transport-https gnupg && \
+    wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add - && \
+    CODENAME=$( cat /etc/os-release | grep VERSION_CODENAME | cut -d = -f 2 ) && \
+    echo "deb https://adoptopenjdk.jfrog.io/adoptopenjdk/deb ${CODENAME} main" | tee /etc/apt/sources.list.d/adoptopenjdk.list && \
+    apt-get update && \
+    apt-cache search adoptopenjdk && \
+    apt-get install -y adoptopenjdk-15-hotspot
 RUN ln -sf $( update-alternatives --list java | head -n 1 | sed -e s%/bin/java$%%g )  /opt/jvm
 ENV JAVA_HOME /opt/jvm
 
