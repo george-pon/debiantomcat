@@ -50,7 +50,7 @@ RUN ln -sf $( update-alternatives --list java | head -n 1 | sed -e s%/bin/java$%
 ENV JAVA_HOME /opt/jvm
 
 # install Tomcat (remove host-manager and manager)
-ENV TOMCAT_VERSION 10.0.8
+ENV TOMCAT_VERSION 10.0.10
 RUN useradd -m -u 998 -U -d /opt/tomcat10 -s /bin/false tomcat && \
     curl -LO https://ftp.jaist.ac.jp/pub/apache/tomcat/tomcat-10/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz && \
     tar xpvf apache-tomcat-${TOMCAT_VERSION}.tar.gz -C /opt/tomcat10 --strip-components=1 && \
