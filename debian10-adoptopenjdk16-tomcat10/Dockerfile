@@ -38,16 +38,49 @@ RUN apt install -y \
         zip \
     && apt clean all
 
-# install Java
-RUN apt-get install wget apt-transport-https gnupg && \
-    wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add - && \
-    CODENAME=$( cat /etc/os-release | grep VERSION_CODENAME | cut -d = -f 2 ) && \
-    echo "deb https://adoptopenjdk.jfrog.io/adoptopenjdk/deb ${CODENAME} main" | tee /etc/apt/sources.list.d/adoptopenjdk.list && \
-    apt-get update && \
-    apt-cache search adoptopenjdk && \
-    apt-get install -y adoptopenjdk-16-hotspot
-RUN ln -sf $( update-alternatives --list java | head -n 1 | sed -e s%/bin/java$%%g )  /opt/jvm
-ENV JAVA_HOME /opt/jvm
+# install Java from debian package
+# RUN apt-get install wget apt-transport-https gnupg && \
+#     wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add - && \
+#     CODENAME=$( cat /etc/os-release | grep VERSION_CODENAME | cut -d = -f 2 ) && \
+#     echo "deb https://adoptopenjdk.jfrog.io/adoptopenjdk/deb ${CODENAME} main" | tee /etc/apt/sources.list.d/adoptopenjdk.list && \
+#     apt-get update && \
+#     apt-cache search adoptopenjdk && \
+#     apt-get install -y adoptopenjdk-16-hotspot
+# RUN ln -sf $( update-alternatives --list java | head -n 1 | sed -e s%/bin/java$%%g )  /opt/jvm
+# ENV JAVA_HOME /opt/jvm
+
+# install Java from tar.gz x86-64 only
+RUN if [ x"$(uname -m)"x = x"x86_64"x ] ; then \
+    export OPENJDK_FILENAME=OpenJDK16U-jdk_x64_linux_hotspot_16.0.2_7 && \
+    curl -LO https://github.com/adoptium/temurin16-binaries/releases/download/jdk-16.0.2%2B7/${OPENJDK_FILENAME}.tar.gz && \
+    mkdir -p /opt/jvm && \
+    tar xzf ${OPENJDK_FILENAME}.tar.gz -C /opt/jvm && \
+    mv /opt/jvm/jdk-16.0.2+7 /opt/jvm/jdk-16.0.2-7 && \
+    /bin/echo '#!/bin/bash' >> /etc/profile.d/javapath.sh && \
+    /bin/echo 'export PATH=/opt/jvm/jdk-16.0.2-7/bin:$PATH' >> /etc/profile.d/javapath.sh && \
+    ln -sf /opt/jvm/jdk-16.0.2-7 /opt/jvm/jdk-16 ; \
+    fi
+RUN if [ x"$(uname -m)"x = x"aarch64"x ] ; then \
+    export OPENJDK_FILENAME=OpenJDK16U-jdk_aarch64_linux_hotspot_16.0.2_7 && \
+    curl -LO https://github.com/adoptium/temurin16-binaries/releases/download/jdk-16.0.2%2B7/${OPENJDK_FILENAME}.tar.gz && \
+    mkdir -p /opt/jvm && \
+    tar xzf ${OPENJDK_FILENAME}.tar.gz -C /opt/jvm && \
+    mv /opt/jvm/jdk-16.0.2+7 /opt/jvm/jdk-16.0.2-7 && \
+    /bin/echo '#!/bin/bash' >> /etc/profile.d/javapath.sh && \
+    /bin/echo 'export PATH=/opt/jvm/jdk-16.0.2-7/bin:$PATH' >> /etc/profile.d/javapath.sh && \
+    ln -sf /opt/jvm/jdk-16.0.2-7 /opt/jvm/jdk-16 ; \
+    fi
+RUN if [ x"$(uname -m)"x = x"armv7l"x ] ; then \
+    export OPENJDK_FILENAME=OpenJDK16U-jdk_arm_linux_hotspot_16.0.1_9 && \
+    curl -LO https://github.com/AdoptOpenJDK/openjdk16-binaries/releases/download/jdk-16.0.1%2B9/${OPENJDK_FILENAME}.tar.gz && \
+    mkdir -p /opt/jvm && \
+    tar xzf ${OPENJDK_FILENAME}.tar.gz -C /opt/jvm && \
+    mv /opt/jvm/jdk-16.0.1+9 /opt/jvm/jdk-16.0.1-9 && \
+    /bin/echo '#!/bin/bash' >> /etc/profile.d/javapath.sh && \
+    /bin/echo 'export PATH=/opt/jvm/jdk-16.0.1-9/bin:$PATH' >> /etc/profile.d/javapath.sh && \
+    ln -sf /opt/jvm/jdk-16.0.1-9 /opt/jvm/jdk-16 ; \
+    fi
+ENV PATH /opt/jvm/jdk-16/bin:$PATH
 
 # install Tomcat (remove host-manager and manager)
 ENV TOMCAT_VERSION 10.0.11
