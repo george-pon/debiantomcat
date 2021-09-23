@@ -1,7 +1,7 @@
 FROM debian:buster
 
-ENV DEBIANTOMCAT_VERSION build-target-3
-ENV DEBIANTOMCAT_VERSION debian10-adoptopenjdk16-tomcat10
+ENV DEBIANTOMCAT_VERSION build-target-4
+ENV DEBIANTOMCAT_VERSION debian10-adoptopenjdk17-tomcat10
 ENV DEBIANTOMCAT_IMAGE georgesan/debiantomcat
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -38,16 +38,46 @@ RUN apt install -y \
         zip \
     && apt clean all
 
-# install Java
-RUN apt-get install wget apt-transport-https gnupg && \
-    wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add - && \
-    CODENAME=$( cat /etc/os-release | grep VERSION_CODENAME | cut -d = -f 2 ) && \
-    echo "deb https://adoptopenjdk.jfrog.io/adoptopenjdk/deb ${CODENAME} main" | tee /etc/apt/sources.list.d/adoptopenjdk.list && \
-    apt-get update && \
-    apt-cache search adoptopenjdk && \
-    apt-get install -y adoptopenjdk-16-hotspot
-RUN ln -sf $( update-alternatives --list java | head -n 1 | sed -e s%/bin/java$%%g )  /opt/jvm
-ENV JAVA_HOME /opt/jvm
+# install Java from debian package
+# RUN apt-get install wget apt-transport-https gnupg && \
+#     wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add - && \
+#     CODENAME=$( cat /etc/os-release | grep VERSION_CODENAME | cut -d = -f 2 ) && \
+#     echo "deb https://adoptopenjdk.jfrog.io/adoptopenjdk/deb ${CODENAME} main" | tee /etc/apt/sources.list.d/adoptopenjdk.list && \
+#     apt-get update && \
+#     apt-cache search adoptopenjdk && \
+#     apt-get install -y adoptopenjdk-17-hotspot
+# RUN ln -sf $( update-alternatives --list java | head -n 1 | sed -e s%/bin/java$%%g )  /opt/jvm
+# ENV JAVA_HOME /opt/jvm
+
+# install Java from tar.gz x86-64 only
+RUN if [ x"$(uname -m)"x = x"x86_64"x ] ; then \
+    export OPENJDK_FILENAME=OpenJDK17-jdk_x64_linux_hotspot_17_35 && \
+    curl -LO https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/${OPENJDK_FILENAME}.tar.gz && \
+    mkdir -p /opt/jvm && \
+    tar xzf ${OPENJDK_FILENAME}.tar.gz -C /opt/jvm && \
+    mv /opt/jvm/jdk-17+35 /opt/jvm/jdk-17-35 && \
+    /bin/echo '#!/bin/bash' >> /etc/profile.d/javapath.sh && \
+    /bin/echo 'export PATH=/opt/jvm/jdk-17-35/bin:$PATH' >> /etc/profile.d/javapath.sh ; \
+    fi
+RUN if [ x"$(uname -m)"x = x"aarch64"x ] ; then \
+    export OPENJDK_FILENAME=OpenJDK17-jdk_aarch64_linux_hotspot_17_35 && \
+    curl -LO https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/${OPENJDK_FILENAME}.tar.gz && \
+    mkdir -p /opt/jvm && \
+    tar xzf ${OPENJDK_FILENAME}.tar.gz -C /opt/jvm && \
+    mv /opt/jvm/jdk-17+35 /opt/jvm/jdk-17-35 && \
+    /bin/echo '#!/bin/bash' >> /etc/profile.d/javapath.sh && \
+    /bin/echo 'export PATH=/opt/jvm/jdk-17-35/bin:$PATH' >> /etc/profile.d/javapath.sh ; \
+    fi
+RUN if [ x"$(uname -m)"x = x"armv7l"x ] ; then \
+    export OPENJDK_FILENAME=OpenJDK17-jdk_aarch64_linux_hotspot_17_35 && \
+    curl -LO https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/${OPENJDK_FILENAME}.tar.gz && \
+    mkdir -p /opt/jvm && \
+    tar xzf ${OPENJDK_FILENAME}.tar.gz -C /opt/jvm && \
+    mv /opt/jvm/jdk-17+35 /opt/jvm/jdk-17-35 && \
+    /bin/echo '#!/bin/bash' >> /etc/profile.d/javapath.sh && \
+    /bin/echo 'export PATH=/opt/jvm/jdk-17-35/bin:$PATH' >> /etc/profile.d/javapath.sh ; \
+    fi
+ENV PATH /opt/jvm/jdk-17-35/bin:$PATH
 
 # install Tomcat (remove host-manager and manager)
 ENV TOMCAT_VERSION 10.0.11
