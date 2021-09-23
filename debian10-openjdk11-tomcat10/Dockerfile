@@ -1,8 +1,7 @@
 FROM debian:buster
 
-ENV DEBIANTOMCAT_VERSION build-target
-ENV DEBIANTOMCAT_VERSION latest
-ENV DEBIANTOMCAT_VERSION debian10-openjdk11-tomcat9
+ENV DEBIANTOMCAT_VERSION build-target-5
+ENV DEBIANTOMCAT_VERSION debian10-openjdk11-tomcat10
 ENV DEBIANTOMCAT_IMAGE georgesan/debiantomcat
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -33,7 +32,6 @@ RUN apt install -y \
         rsync \
         sudo \
         openjdk-11-jdk \
-        tomcat9 \
         tcpdump \
         traceroute \
         tree \
@@ -41,6 +39,17 @@ RUN apt install -y \
         zip \
     && apt clean all
 
+# install Tomcat (remove host-manager and manager)
+ENV TOMCAT_VERSION 10.0.11
+RUN useradd -m -u 998 -U -d /opt/tomcat10 -s /bin/false tomcat && \
+    curl -LO https://ftp.jaist.ac.jp/pub/apache/tomcat/tomcat-10/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz && \
+    tar xpvf apache-tomcat-${TOMCAT_VERSION}.tar.gz -C /opt/tomcat10 --strip-components=1 && \
+    chown -R tomcat:tomcat /opt/tomcat10/ && \
+    chmod -R u+x /opt/tomcat10/bin && \
+    rm -rf /opt/tomcat10/webapps/docs && \
+    rm -rf /opt/tomcat10/webapps/examples && \
+    rm -rf /opt/tomcat10/webapps/host-manager && \
+    rm -rf /opt/tomcat10/webapps/manager
 
 ADD docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
@@ -63,12 +72,12 @@ RUN echo 'Defaults visiblepw'            >> /etc/sudoers && \
     echo 'tomcat ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 # log to stderr/stdout
-RUN cp -p /etc/tomcat9/logging.properties /etc/tomcat9/logging.properties.orig
-COPY logging.properties /etc/tomcat9/logging.properties
+RUN cp -p /opt/tomcat10/conf/logging.properties /opt/tomcat10/conf/logging.properties.orig
+COPY logging.properties /opt/tomcat10/conf/logging.properties
 
 # log to stderr/stdout
-RUN cp -p /etc/tomcat9/server.xml /etc/tomcat9/server.xml.orig
-COPY server.xml /etc/tomcat9/server.xml
+RUN cp -p /opt/tomcat10/conf/server.xml /opt/tomcat10/conf/server.xml.orig
+COPY server.xml /opt/tomcat10/conf/server.xml
 
 # use system tomcat
 USER tomcat
@@ -76,18 +85,18 @@ USER tomcat
 # CMD ["/usr/local/bin/docker-entrypoint.sh"]
 
 # Tomcat Configuration
-ENV CATALINA_HOME /usr/share/tomcat9
-ENV CATALINA_BASE /var/lib/tomcat9
+ENV CATALINA_HOME /opt/tomcat10
+ENV CATALINA_BASE /opt/tomcat10
 ENV CATALINA_TMPDIR /tmp
 ENV JAVA_OPTS -Djava.awt.headless=true
 
 # Path Info
-# ReadWritePaths=/etc/tomcat9/Catalina/
-# ReadWritePaths=/var/lib/tomcat9/webapps/
-# ReadWritePaths=/var/log/tomcat9/
-# RequiresMountsFor=/var/log/tomcat9
+# ReadWritePaths=/opt/tomcat10/conf/Catalina/
+# ReadWritePaths=/var/lib/tomcat10/webapps/
+# ReadWritePaths=/var/log/tomcat10/
+# RequiresMountsFor=/var/log/tomcat10
 
-CMD ["/usr/libexec/tomcat9/tomcat-start.sh"]
+CMD ["/opt/tomcat10/bin/catalina.sh", "run"]
 
 EXPOSE 8080
 

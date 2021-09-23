@@ -1,11 +1,10 @@
 # debiantomcat
 
-debian + openjdk11 + tomcat for linux/arm/v7 (raspberry pi 4) and linux/amd64
+debian10 + openjdk11 + tomcat9 for linux/arm/v7 (raspberry pi 4 32bit) and linux/aarch64 (raspberry pi 4 64bit) and linux/amd64 (x86-64 64bit)
 
 ### Dockerfile
 
 * https://github.com/george-pon/debiantomcat
-* https://github.com/george-pon/debiantomcat/blob/master/Dockerfile
 
 ### tags
 
