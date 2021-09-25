@@ -69,7 +69,7 @@ RUN if [ x"$(uname -m)"x = x"aarch64"x ] ; then \
     /bin/echo 'export PATH=/opt/jvm/jdk-17-35/bin:$PATH' >> /etc/profile.d/javapath.sh ; \
     fi
 RUN if [ x"$(uname -m)"x = x"armv7l"x ] ; then \
-    export OPENJDK_FILENAME=OpenJDK17-jdk_aarch64_linux_hotspot_17_35 && \
+    export OPENJDK_FILENAME=OpenJDK17-jdk_arm_linux_hotspot_17_35 && \
     curl -LO https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/${OPENJDK_FILENAME}.tar.gz && \
     mkdir -p /opt/jvm && \
     tar xzf ${OPENJDK_FILENAME}.tar.gz -C /opt/jvm && \
