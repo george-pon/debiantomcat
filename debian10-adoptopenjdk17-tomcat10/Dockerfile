@@ -1,7 +1,7 @@
 FROM debian:buster
 
 ENV DEBIANTOMCAT_VERSION build-target-4
-ENV DEBIANTOMCAT_VERSION debian10-adoptiumjdk17-tomcat10
+ENV DEBIANTOMCAT_VERSION debian10-adoptiumopenjdk17-tomcat10
 ENV DEBIANTOMCAT_IMAGE georgesan/debiantomcat
 
 ENV DEBIAN_FRONTEND noninteractive
