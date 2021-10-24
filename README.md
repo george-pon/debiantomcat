@@ -8,8 +8,8 @@ debian10 + openjdk11 + tomcat9 for linux/arm/v7 (raspberry pi 4 32bit) and linux
 
 ### tags
 
-* debian10-adoptopenjdk16-tomcat10
-* debian10-openjdk11-tomcat9, latest, monthly202101
+* debian10-adoptopenjdk17-tomcat10
+* debian10-openjdk11-tomcat9, latest
 
 ### arch
 
@@ -22,5 +22,4 @@ debian10 + openjdk11 + tomcat9 for linux/arm/v7 (raspberry pi 4 32bit) and linux
 docker buildx build -t latest --platform=linux/amd64,linux/arm64,linux/arm/v7 --push .
 
 see build-image.sh
-
 
