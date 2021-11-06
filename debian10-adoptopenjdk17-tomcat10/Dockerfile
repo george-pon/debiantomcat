@@ -49,35 +49,40 @@ RUN apt install -y \
 # RUN ln -sf $( update-alternatives --list java | head -n 1 | sed -e s%/bin/java$%%g )  /opt/jvm
 # ENV JAVA_HOME /opt/jvm
 
-# install Java from tar.gz x86-64 only
+# install Java from tar.gz
+# see https://adoptium.net/releases.html
+# 2021.11.06
+# https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.1%2B12/OpenJDK17U-jdk_x64_linux_hotspot_17.0.1_12.tar.gz
+# https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.1%2B12/OpenJDK17U-jdk_aarch64_linux_hotspot_17.0.1_12.tar.gz
+# https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.1%2B12/OpenJDK17U-jdk_arm_linux_hotspot_17.0.1_12.tar.gz
 RUN if [ x"$(uname -m)"x = x"x86_64"x ] ; then \
-    export OPENJDK_FILENAME=OpenJDK17-jdk_x64_linux_hotspot_17_35 && \
-    curl -LO https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/${OPENJDK_FILENAME}.tar.gz && \
+    export OPENJDK_FILENAME=OpenJDK17U-jdk_x64_linux_hotspot_17.0.1_12 && \
+    curl -LO https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.1%2B12/${OPENJDK_FILENAME}.tar.gz && \
     mkdir -p /opt/jvm && \
     tar xzf ${OPENJDK_FILENAME}.tar.gz -C /opt/jvm && \
-    mv /opt/jvm/jdk-17+35 /opt/jvm/jdk-17-35 && \
+    mv /opt/jvm/jdk-17.0.1+12 /opt/jvm/jdk-17.0.1-12 && \
     /bin/echo '#!/bin/bash' >> /etc/profile.d/javapath.sh && \
-    /bin/echo 'export PATH=/opt/jvm/jdk-17-35/bin:$PATH' >> /etc/profile.d/javapath.sh ; \
+    /bin/echo 'export PATH=/opt/jvm/jdk-17.0.1-12/bin:$PATH' >> /etc/profile.d/javapath.sh ; \
     fi
 RUN if [ x"$(uname -m)"x = x"aarch64"x ] ; then \
-    export OPENJDK_FILENAME=OpenJDK17-jdk_aarch64_linux_hotspot_17_35 && \
-    curl -LO https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/${OPENJDK_FILENAME}.tar.gz && \
+    export OPENJDK_FILENAME=OpenJDK17U-jdk_aarch64_linux_hotspot_17.0.1_12 && \
+    curl -LO https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.1%2B12/${OPENJDK_FILENAME}.tar.gz && \
     mkdir -p /opt/jvm && \
     tar xzf ${OPENJDK_FILENAME}.tar.gz -C /opt/jvm && \
-    mv /opt/jvm/jdk-17+35 /opt/jvm/jdk-17-35 && \
+    mv /opt/jvm/jdk-17.0.1+12 /opt/jvm/jdk-17.0.1-12 && \
     /bin/echo '#!/bin/bash' >> /etc/profile.d/javapath.sh && \
-    /bin/echo 'export PATH=/opt/jvm/jdk-17-35/bin:$PATH' >> /etc/profile.d/javapath.sh ; \
+    /bin/echo 'export PATH=/opt/jvm/jdk-17.0.1-12/bin:$PATH' >> /etc/profile.d/javapath.sh ; \
     fi
 RUN if [ x"$(uname -m)"x = x"armv7l"x ] ; then \
-    export OPENJDK_FILENAME=OpenJDK17-jdk_arm_linux_hotspot_17_35 && \
-    curl -LO https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/${OPENJDK_FILENAME}.tar.gz && \
+    export OPENJDK_FILENAME=OpenJDK17U-jdk_arm_linux_hotspot_17.0.1_12 && \
+    curl -LO https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.1%2B12/${OPENJDK_FILENAME}.tar.gz && \
     mkdir -p /opt/jvm && \
     tar xzf ${OPENJDK_FILENAME}.tar.gz -C /opt/jvm && \
-    mv /opt/jvm/jdk-17+35 /opt/jvm/jdk-17-35 && \
+    mv /opt/jvm/jdk-17.0.1+12 /opt/jvm/jdk-17.0.1-12 && \
     /bin/echo '#!/bin/bash' >> /etc/profile.d/javapath.sh && \
-    /bin/echo 'export PATH=/opt/jvm/jdk-17-35/bin:$PATH' >> /etc/profile.d/javapath.sh ; \
+    /bin/echo 'export PATH=/opt/jvm/jdk-17.0.1-12/bin:$PATH' >> /etc/profile.d/javapath.sh ; \
     fi
-ENV PATH /opt/jvm/jdk-17-35/bin:$PATH
+ENV PATH /opt/jvm/jdk-17.0.1-12/bin:$PATH
 
 # install Tomcat (remove host-manager and manager)
 ENV TOMCAT_VERSION 10.0.12
