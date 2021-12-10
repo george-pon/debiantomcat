@@ -63,6 +63,7 @@ RUN if [ x"$(uname -m)"x = x"x86_64"x ] ; then \
     mv /opt/jvm/jdk-17.0.1+12 /opt/jvm/jdk-17.0.1-12 && \
     /bin/echo '#!/bin/bash' >> /etc/profile.d/javapath.sh && \
     /bin/echo 'export PATH=/opt/jvm/jdk-17.0.1-12/bin:$PATH' >> /etc/profile.d/javapath.sh ; \
+    rm ${OPENJDK_FILENAME}.tar.gz ; \
     fi
 RUN if [ x"$(uname -m)"x = x"aarch64"x ] ; then \
     export OPENJDK_FILENAME=OpenJDK17U-jdk_aarch64_linux_hotspot_17.0.1_12 && \
@@ -72,6 +73,7 @@ RUN if [ x"$(uname -m)"x = x"aarch64"x ] ; then \
     mv /opt/jvm/jdk-17.0.1+12 /opt/jvm/jdk-17.0.1-12 && \
     /bin/echo '#!/bin/bash' >> /etc/profile.d/javapath.sh && \
     /bin/echo 'export PATH=/opt/jvm/jdk-17.0.1-12/bin:$PATH' >> /etc/profile.d/javapath.sh ; \
+    rm ${OPENJDK_FILENAME}.tar.gz ; \
     fi
 RUN if [ x"$(uname -m)"x = x"armv7l"x ] ; then \
     export OPENJDK_FILENAME=OpenJDK17U-jdk_arm_linux_hotspot_17.0.1_12 && \
@@ -81,6 +83,7 @@ RUN if [ x"$(uname -m)"x = x"armv7l"x ] ; then \
     mv /opt/jvm/jdk-17.0.1+12 /opt/jvm/jdk-17.0.1-12 && \
     /bin/echo '#!/bin/bash' >> /etc/profile.d/javapath.sh && \
     /bin/echo 'export PATH=/opt/jvm/jdk-17.0.1-12/bin:$PATH' >> /etc/profile.d/javapath.sh ; \
+    rm ${OPENJDK_FILENAME}.tar.gz ; \
     fi
 ENV PATH /opt/jvm/jdk-17.0.1-12/bin:$PATH
 
@@ -94,7 +97,8 @@ RUN useradd -m -u 998 -U -d /opt/tomcat10 -s /bin/false tomcat && \
     rm -rf /opt/tomcat10/webapps/docs && \
     rm -rf /opt/tomcat10/webapps/examples && \
     rm -rf /opt/tomcat10/webapps/host-manager && \
-    rm -rf /opt/tomcat10/webapps/manager
+    rm -rf /opt/tomcat10/webapps/manager && \
+    rm -f apache-tomcat-${TOMCAT_VERSION}.tar.gz
 
 ADD docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
