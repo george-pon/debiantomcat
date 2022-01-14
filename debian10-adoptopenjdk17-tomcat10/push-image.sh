@@ -3,7 +3,7 @@
 TAG_LIST=$(awk '/^ENV DEBIANTOMCAT_VERSION/ {print $3;}' Dockerfile)
 IMAGE_NAME=$(awk '/^ENV DEBIANTOMCAT_IMAGE/ {print $3;}' Dockerfile)
 
-REPO_SERV=georgesan/
+REPO_SERV=docker.io/georgesan/
 
 for i in $TAG_LIST
 do
