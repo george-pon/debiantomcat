@@ -55,9 +55,13 @@ RUN apt install -y \
 # https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.1%2B12/OpenJDK17U-jdk_x64_linux_hotspot_17.0.1_12.tar.gz
 # https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.1%2B12/OpenJDK17U-jdk_aarch64_linux_hotspot_17.0.1_12.tar.gz
 # https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.1%2B12/OpenJDK17U-jdk_arm_linux_hotspot_17.0.1_12.tar.gz
+# 2022.02.12
+# https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_x64_linux_hotspot_17.0.2_8.tar.gz
+# https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_aarch64_linux_hotspot_17.0.2_8.tar.gz
+# https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_arm_linux_hotspot_17.0.2_8.tar.gz
 RUN if [ x"$(uname -m)"x = x"x86_64"x ] ; then \
-    export OPENJDK_FILENAME=OpenJDK17U-jdk_x64_linux_hotspot_17.0.1_12 && \
-    curl -LO https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.1%2B12/${OPENJDK_FILENAME}.tar.gz && \
+    export OPENJDK_FILENAME=OpenJDK17U-jdk_x64_linux_hotspot_17.0.2_8 && \
+    curl -LO https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/${OPENJDK_FILENAME}.tar.gz && \
     mkdir -p /opt/jvm && \
     tar xzf ${OPENJDK_FILENAME}.tar.gz -C /opt/jvm && \
     mv /opt/jvm/jdk-17.0.1+12 /opt/jvm/jdk-17.0.1-12 && \
@@ -66,8 +70,8 @@ RUN if [ x"$(uname -m)"x = x"x86_64"x ] ; then \
     rm ${OPENJDK_FILENAME}.tar.gz ; \
     fi
 RUN if [ x"$(uname -m)"x = x"aarch64"x ] ; then \
-    export OPENJDK_FILENAME=OpenJDK17U-jdk_aarch64_linux_hotspot_17.0.1_12 && \
-    curl -LO https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.1%2B12/${OPENJDK_FILENAME}.tar.gz && \
+    export OPENJDK_FILENAME=OpenJDK17U-jdk_aarch64_linux_hotspot_17.0.2_8 && \
+    curl -LO https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/${OPENJDK_FILENAME}.tar.gz && \
     mkdir -p /opt/jvm && \
     tar xzf ${OPENJDK_FILENAME}.tar.gz -C /opt/jvm && \
     mv /opt/jvm/jdk-17.0.1+12 /opt/jvm/jdk-17.0.1-12 && \
@@ -76,8 +80,8 @@ RUN if [ x"$(uname -m)"x = x"aarch64"x ] ; then \
     rm ${OPENJDK_FILENAME}.tar.gz ; \
     fi
 RUN if [ x"$(uname -m)"x = x"armv7l"x ] ; then \
-    export OPENJDK_FILENAME=OpenJDK17U-jdk_arm_linux_hotspot_17.0.1_12 && \
-    curl -LO https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.1%2B12/${OPENJDK_FILENAME}.tar.gz && \
+    export OPENJDK_FILENAME=OpenJDK17U-jdk_arm_linux_hotspot_17.0.2_8 && \
+    curl -LO https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/${OPENJDK_FILENAME}.tar.gz && \
     mkdir -p /opt/jvm && \
     tar xzf ${OPENJDK_FILENAME}.tar.gz -C /opt/jvm && \
     mv /opt/jvm/jdk-17.0.1+12 /opt/jvm/jdk-17.0.1-12 && \
