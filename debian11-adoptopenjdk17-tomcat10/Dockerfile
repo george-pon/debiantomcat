@@ -7,8 +7,8 @@ ENV DEBIANTOMCAT_IMAGE georgesan/debiantomcat
 ENV DEBIAN_FRONTEND noninteractive
 
 # set locale
-RUN apt update --allow-releaseinfo-change && apt upgrade -y
-RUN apt install -y locales  apt-transport-https  ca-certificates  software-properties-common && \
+RUN apt update --allow-releaseinfo-change && apt upgrade -y && \
+    apt install -y locales  apt-transport-https  ca-certificates  software-properties-common && \
     localedef -i ja_JP -c -f UTF-8 -A /usr/share/locale/locale.alias ja_JP.UTF-8 && \
     apt clean all
 ENV LANG ja_JP.utf8
@@ -55,37 +55,50 @@ RUN apt install -y \
 # https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.1%2B12/OpenJDK17U-jdk_x64_linux_hotspot_17.0.1_12.tar.gz
 # https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.1%2B12/OpenJDK17U-jdk_aarch64_linux_hotspot_17.0.1_12.tar.gz
 # https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.1%2B12/OpenJDK17U-jdk_arm_linux_hotspot_17.0.1_12.tar.gz
+# 2022.02.12
+# https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_x64_linux_hotspot_17.0.2_8.tar.gz
+# https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_aarch64_linux_hotspot_17.0.2_8.tar.gz
+# https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_arm_linux_hotspot_17.0.2_8.tar.gz
+ENV OPENJDK_VER_NAME 17.0.2_8
+ENV OPENJDK_VER_ESCAPED jdk-17.0.2%2B8
+ENV OPENJDK_VER_DIRNAME jdk-17.0.2+8
+ENV OPENJDK_VER_DIRNAME2 jdk-17.0.2-8
+ENV JAVA_HOME /opt/jvm/${OPENJDK_VER_DIRNAME2}
 RUN if [ x"$(uname -m)"x = x"x86_64"x ] ; then \
-    export OPENJDK_FILENAME=OpenJDK17U-jdk_x64_linux_hotspot_17.0.1_12 && \
-    curl -LO https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.1%2B12/${OPENJDK_FILENAME}.tar.gz && \
+    export OPENJDK_FILENAME=OpenJDK17U-jdk_x64_linux_hotspot_${OPENJDK_VER_NAME} && \
+    curl -LO https://github.com/adoptium/temurin17-binaries/releases/download/${OPENJDK_VER_ESCAPED}/${OPENJDK_FILENAME}.tar.gz && \
     mkdir -p /opt/jvm && \
     tar xzf ${OPENJDK_FILENAME}.tar.gz -C /opt/jvm && \
-    mv /opt/jvm/jdk-17.0.1+12 /opt/jvm/jdk-17.0.1-12 && \
+    mv /opt/jvm/${OPENJDK_VER_DIRNAME} /opt/jvm/${OPENJDK_VER_DIRNAME2} && \
     /bin/echo '#!/bin/bash' >> /etc/profile.d/javapath.sh && \
-    /bin/echo 'export PATH=/opt/jvm/jdk-17.0.1-12/bin:$PATH' >> /etc/profile.d/javapath.sh ; \
+    /bin/echo "export PATH=/opt/jvm/${OPENJDK_VER_DIRNAME2}/bin:"'$PATH' >> /etc/profile.d/javapath.sh ; \
+    rm ${OPENJDK_FILENAME}.tar.gz ; \
     fi
 RUN if [ x"$(uname -m)"x = x"aarch64"x ] ; then \
-    export OPENJDK_FILENAME=OpenJDK17U-jdk_aarch64_linux_hotspot_17.0.1_12 && \
-    curl -LO https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.1%2B12/${OPENJDK_FILENAME}.tar.gz && \
+    export OPENJDK_FILENAME=OpenJDK17U-jdk_aarch64_linux_hotspot_${OPENJDK_VER_NAME} && \
+    curl -LO https://github.com/adoptium/temurin17-binaries/releases/download/${OPENJDK_VER_ESCAPED}/${OPENJDK_FILENAME}.tar.gz && \
     mkdir -p /opt/jvm && \
     tar xzf ${OPENJDK_FILENAME}.tar.gz -C /opt/jvm && \
-    mv /opt/jvm/jdk-17.0.1+12 /opt/jvm/jdk-17.0.1-12 && \
+    mv /opt/jvm/${OPENJDK_VER_DIRNAME} /opt/jvm/${OPENJDK_VER_DIRNAME2} && \
     /bin/echo '#!/bin/bash' >> /etc/profile.d/javapath.sh && \
-    /bin/echo 'export PATH=/opt/jvm/jdk-17.0.1-12/bin:$PATH' >> /etc/profile.d/javapath.sh ; \
+    /bin/echo "export PATH=/opt/jvm/${OPENJDK_VER_DIRNAME2}/bin:"'$PATH' >> /etc/profile.d/javapath.sh ; \
+    rm ${OPENJDK_FILENAME}.tar.gz ; \
     fi
 RUN if [ x"$(uname -m)"x = x"armv7l"x ] ; then \
-    export OPENJDK_FILENAME=OpenJDK17U-jdk_arm_linux_hotspot_17.0.1_12 && \
-    curl -LO https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.1%2B12/${OPENJDK_FILENAME}.tar.gz && \
+    export OPENJDK_FILENAME=OpenJDK17U-jdk_arm_linux_hotspot_${OPENJDK_VER_NAME} && \
+    curl -LO https://github.com/adoptium/temurin17-binaries/releases/download/${OPENJDK_VER_ESCAPED}/${OPENJDK_FILENAME}.tar.gz && \
     mkdir -p /opt/jvm && \
     tar xzf ${OPENJDK_FILENAME}.tar.gz -C /opt/jvm && \
-    mv /opt/jvm/jdk-17.0.1+12 /opt/jvm/jdk-17.0.1-12 && \
+    mv /opt/jvm/${OPENJDK_VER_DIRNAME} /opt/jvm/${OPENJDK_VER_DIRNAME2} && \
     /bin/echo '#!/bin/bash' >> /etc/profile.d/javapath.sh && \
-    /bin/echo 'export PATH=/opt/jvm/jdk-17.0.1-12/bin:$PATH' >> /etc/profile.d/javapath.sh ; \
+    /bin/echo "export PATH=/opt/jvm/${OPENJDK_VER_DIRNAME2}/bin:"'$PATH' >> /etc/profile.d/javapath.sh ; \
+    rm ${OPENJDK_FILENAME}.tar.gz ; \
     fi
-ENV PATH /opt/jvm/jdk-17.0.1-12/bin:$PATH
+ENV PATH /opt/jvm/${OPENJDK_VER_DIRNAME2}/bin:$PATH
 
+# https://tomcat.apache.org/
 # install Tomcat (remove host-manager and manager)
-ENV TOMCAT_VERSION 10.0.12
+ENV TOMCAT_VERSION 10.0.16
 RUN useradd -m -u 998 -U -d /opt/tomcat10 -s /bin/false tomcat && \
     curl -LO https://ftp.jaist.ac.jp/pub/apache/tomcat/tomcat-10/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz && \
     tar xpvf apache-tomcat-${TOMCAT_VERSION}.tar.gz -C /opt/tomcat10 --strip-components=1 && \
@@ -94,7 +107,8 @@ RUN useradd -m -u 998 -U -d /opt/tomcat10 -s /bin/false tomcat && \
     rm -rf /opt/tomcat10/webapps/docs && \
     rm -rf /opt/tomcat10/webapps/examples && \
     rm -rf /opt/tomcat10/webapps/host-manager && \
-    rm -rf /opt/tomcat10/webapps/manager
+    rm -rf /opt/tomcat10/webapps/manager && \
+    rm -f apache-tomcat-${TOMCAT_VERSION}.tar.gz
 
 ADD docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
