@@ -39,10 +39,10 @@ function f_docker_build() {
         BUILD_OPT="$BUILD_OPT  --build-arg no_proxy=$no_proxy"
     fi
 
-    #if [ ! -z "$no_cache" ]; then
-    #    BUILD_OPT="$BUILD_OPT  --no-cache=true"
-    #fi
-    BUILD_OPT="$BUILD_OPT  --no-cache=true"
+    if [ ! -z "$no_cache" ]; then
+        BUILD_OPT="$BUILD_OPT  --no-cache=$no_cache"
+    fi
+    #BUILD_OPT="$BUILD_OPT  --no-cache=true"
 
     # check use buildx
     if [ x"$USE_BUILDX"x = x""x ] ; then

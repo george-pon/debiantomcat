@@ -39,6 +39,10 @@ RUN apt install -y \
     && apt clean all
 
 # install Java from debian package
+RUN apt install -y openjdk-17-jdk && apt clean all
+
+
+# install Java from debian package
 # RUN apt-get install wget apt-transport-https gnupg && \
 #     wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add - && \
 #     CODENAME=$( cat /etc/os-release | grep VERSION_CODENAME | cut -d = -f 2 ) && \
@@ -59,42 +63,42 @@ RUN apt install -y \
 # https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_x64_linux_hotspot_17.0.2_8.tar.gz
 # https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_aarch64_linux_hotspot_17.0.2_8.tar.gz
 # https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_arm_linux_hotspot_17.0.2_8.tar.gz
-ENV OPENJDK_VER_NAME 17.0.2_8
-ENV OPENJDK_VER_ESCAPED jdk-17.0.2%2B8
-ENV OPENJDK_VER_DIRNAME jdk-17.0.2+8
-ENV OPENJDK_VER_DIRNAME2 jdk-17.0.2-8
-ENV JAVA_HOME /opt/jvm/${OPENJDK_VER_DIRNAME2}
-RUN if [ x"$(uname -m)"x = x"x86_64"x ] ; then \
-    export OPENJDK_FILENAME=OpenJDK17U-jdk_x64_linux_hotspot_${OPENJDK_VER_NAME} && \
-    curl -LO https://github.com/adoptium/temurin17-binaries/releases/download/${OPENJDK_VER_ESCAPED}/${OPENJDK_FILENAME}.tar.gz && \
-    mkdir -p /opt/jvm && \
-    tar xzf ${OPENJDK_FILENAME}.tar.gz -C /opt/jvm && \
-    mv /opt/jvm/${OPENJDK_VER_DIRNAME} /opt/jvm/${OPENJDK_VER_DIRNAME2} && \
-    /bin/echo '#!/bin/bash' >> /etc/profile.d/javapath.sh && \
-    /bin/echo "export PATH=/opt/jvm/${OPENJDK_VER_DIRNAME2}/bin:"'$PATH' >> /etc/profile.d/javapath.sh ; \
-    rm ${OPENJDK_FILENAME}.tar.gz ; \
-    fi
-RUN if [ x"$(uname -m)"x = x"aarch64"x ] ; then \
-    export OPENJDK_FILENAME=OpenJDK17U-jdk_aarch64_linux_hotspot_${OPENJDK_VER_NAME} && \
-    curl -LO https://github.com/adoptium/temurin17-binaries/releases/download/${OPENJDK_VER_ESCAPED}/${OPENJDK_FILENAME}.tar.gz && \
-    mkdir -p /opt/jvm && \
-    tar xzf ${OPENJDK_FILENAME}.tar.gz -C /opt/jvm && \
-    mv /opt/jvm/${OPENJDK_VER_DIRNAME} /opt/jvm/${OPENJDK_VER_DIRNAME2} && \
-    /bin/echo '#!/bin/bash' >> /etc/profile.d/javapath.sh && \
-    /bin/echo "export PATH=/opt/jvm/${OPENJDK_VER_DIRNAME2}/bin:"'$PATH' >> /etc/profile.d/javapath.sh ; \
-    rm ${OPENJDK_FILENAME}.tar.gz ; \
-    fi
-RUN if [ x"$(uname -m)"x = x"armv7l"x ] ; then \
-    export OPENJDK_FILENAME=OpenJDK17U-jdk_arm_linux_hotspot_${OPENJDK_VER_NAME} && \
-    curl -LO https://github.com/adoptium/temurin17-binaries/releases/download/${OPENJDK_VER_ESCAPED}/${OPENJDK_FILENAME}.tar.gz && \
-    mkdir -p /opt/jvm && \
-    tar xzf ${OPENJDK_FILENAME}.tar.gz -C /opt/jvm && \
-    mv /opt/jvm/${OPENJDK_VER_DIRNAME} /opt/jvm/${OPENJDK_VER_DIRNAME2} && \
-    /bin/echo '#!/bin/bash' >> /etc/profile.d/javapath.sh && \
-    /bin/echo "export PATH=/opt/jvm/${OPENJDK_VER_DIRNAME2}/bin:"'$PATH' >> /etc/profile.d/javapath.sh ; \
-    rm ${OPENJDK_FILENAME}.tar.gz ; \
-    fi
-ENV PATH /opt/jvm/${OPENJDK_VER_DIRNAME2}/bin:$PATH
+#ENV OPENJDK_VER_NAME 18.0.1_10
+#ENV OPENJDK_VER_ESCAPED jdk-18.0.1%2B10
+#ENV OPENJDK_VER_DIRNAME jdk-18.0.1+10
+#ENV OPENJDK_VER_DIRNAME2 jdk-18.0.1-10
+#ENV JAVA_HOME /opt/jvm/${OPENJDK_VER_DIRNAME2}
+#RUN if [ x"$(uname -m)"x = x"x86_64"x ] ; then \
+#    export OPENJDK_FILENAME=OpenJDK17U-jdk_x64_linux_hotspot_${OPENJDK_VER_NAME} && \
+#    curl -LO https://github.com/adoptium/temurin17-binaries/releases/download/${OPENJDK_VER_ESCAPED}/${OPENJDK_FILENAME}.tar.gz && \
+#    mkdir -p /opt/jvm && \
+#    tar xzf ${OPENJDK_FILENAME}.tar.gz -C /opt/jvm && \
+#    mv /opt/jvm/${OPENJDK_VER_DIRNAME} /opt/jvm/${OPENJDK_VER_DIRNAME2} && \
+#    /bin/echo '#!/bin/bash' >> /etc/profile.d/javapath.sh && \
+#    /bin/echo "export PATH=/opt/jvm/${OPENJDK_VER_DIRNAME2}/bin:"'$PATH' >> /etc/profile.d/javapath.sh ; \
+#    rm ${OPENJDK_FILENAME}.tar.gz ; \
+#    fi
+#RUN if [ x"$(uname -m)"x = x"aarch64"x ] ; then \
+#    export OPENJDK_FILENAME=OpenJDK17U-jdk_aarch64_linux_hotspot_${OPENJDK_VER_NAME} && \
+#    curl -LO https://github.com/adoptium/temurin17-binaries/releases/download/${OPENJDK_VER_ESCAPED}/${OPENJDK_FILENAME}.tar.gz && \
+#    mkdir -p /opt/jvm && \
+#    tar xzf ${OPENJDK_FILENAME}.tar.gz -C /opt/jvm && \
+#    mv /opt/jvm/${OPENJDK_VER_DIRNAME} /opt/jvm/${OPENJDK_VER_DIRNAME2} && \
+#    /bin/echo '#!/bin/bash' >> /etc/profile.d/javapath.sh && \
+#    /bin/echo "export PATH=/opt/jvm/${OPENJDK_VER_DIRNAME2}/bin:"'$PATH' >> /etc/profile.d/javapath.sh ; \
+#    rm ${OPENJDK_FILENAME}.tar.gz ; \
+#    fi
+#RUN if [ x"$(uname -m)"x = x"armv7l"x ] ; then \
+#    export OPENJDK_FILENAME=OpenJDK17U-jdk_arm_linux_hotspot_${OPENJDK_VER_NAME} && \
+#    curl -LO https://github.com/adoptium/temurin17-binaries/releases/download/${OPENJDK_VER_ESCAPED}/${OPENJDK_FILENAME}.tar.gz && \
+#    mkdir -p /opt/jvm && \
+#    tar xzf ${OPENJDK_FILENAME}.tar.gz -C /opt/jvm && \
+#    mv /opt/jvm/${OPENJDK_VER_DIRNAME} /opt/jvm/${OPENJDK_VER_DIRNAME2} && \
+#    /bin/echo '#!/bin/bash' >> /etc/profile.d/javapath.sh && \
+#    /bin/echo "export PATH=/opt/jvm/${OPENJDK_VER_DIRNAME2}/bin:"'$PATH' >> /etc/profile.d/javapath.sh ; \
+#    rm ${OPENJDK_FILENAME}.tar.gz ; \
+#    fi
+#ENV PATH /opt/jvm/${OPENJDK_VER_DIRNAME2}/bin:$PATH
 
 # https://tomcat.apache.org/
 # install Tomcat (remove host-manager and manager)
