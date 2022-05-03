@@ -55,7 +55,7 @@ ENV OPENJDK_VER_DIRNAME jdk-18.0.1+10
 ENV OPENJDK_VER_DIRNAME2 jdk-18.0.1-10
 ENV JAVA_HOME /opt/jvm/${OPENJDK_VER_DIRNAME2}
 RUN if [ x"$(uname -m)"x = x"x86_64"x ] ; then \
-    export OPENJDK_FILENAME=OpenJDK17U-jdk_x64_linux_hotspot_${OPENJDK_VER_NAME} && \
+    export OPENJDK_FILENAME=OpenJDK18U-jdk_x64_linux_hotspot_${OPENJDK_VER_NAME} && \
     curl -LO https://github.com/adoptium/temurin18-binaries/releases/download/${OPENJDK_VER_ESCAPED}/${OPENJDK_FILENAME}.tar.gz && \
     mkdir -p /opt/jvm && \
     tar xzf ${OPENJDK_FILENAME}.tar.gz -C /opt/jvm && \
@@ -65,7 +65,7 @@ RUN if [ x"$(uname -m)"x = x"x86_64"x ] ; then \
     rm ${OPENJDK_FILENAME}.tar.gz ; \
     fi
 RUN if [ x"$(uname -m)"x = x"aarch64"x ] ; then \
-    export OPENJDK_FILENAME=OpenJDK17U-jdk_aarch64_linux_hotspot_${OPENJDK_VER_NAME} && \
+    export OPENJDK_FILENAME=OpenJDK18U-jdk_aarch64_linux_hotspot_${OPENJDK_VER_NAME} && \
     curl -LO https://github.com/adoptium/temurin18-binaries/releases/download/${OPENJDK_VER_ESCAPED}/${OPENJDK_FILENAME}.tar.gz && \
     mkdir -p /opt/jvm && \
     tar xzf ${OPENJDK_FILENAME}.tar.gz -C /opt/jvm && \
