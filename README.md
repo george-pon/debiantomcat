@@ -1,6 +1,6 @@
 # debiantomcat
 
-debian11 + adoptium openjdk17 + tomcat10 for linux/aarch64 (raspberry pi 4 64bit) and linux/amd64 (x86-64 64bit)
+debian11 + adoptium openjdk18 + tomcat10
 
 ### Dockerfile
 
@@ -8,7 +8,7 @@ debian11 + adoptium openjdk17 + tomcat10 for linux/aarch64 (raspberry pi 4 64bit
 
 ### tags
 
-* debian11-adoptopenjdk17-tomcat10
+* debian11-adoptiumopenjdk18-tomcat10
 
 ### arch
 
