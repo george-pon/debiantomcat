@@ -79,7 +79,7 @@ ENV PATH /opt/jvm/${OPENJDK_VER_DIRNAME2}/bin:$PATH
 
 # https://tomcat.apache.org/
 # install Tomcat (remove host-manager and manager)
-ENV TOMCAT_VERSION 10.0.21
+ENV TOMCAT_VERSION 10.0.22
 RUN groupadd -g 998 tomcat && \
     useradd -m -u 998 -g 998 -d /opt/tomcat10 -s /bin/false tomcat && \
     curl -LO https://ftp.jaist.ac.jp/pub/apache/tomcat/tomcat-10/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz && \
