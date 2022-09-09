@@ -43,21 +43,20 @@ RUN apt install -y \
 
 # install Java from tar.gz
 # see https://adoptium.net/releases.html
-# 2022.05.03
 # https://github.com/adoptium
 # https://github.com/adoptium/temurin18-binaries/releases
-# https://github.com/adoptium/temurin18-binaries/releases/download/jdk-18.0.1%2B10/OpenJDK18U-jdk_aarch64_linux_hotspot_18.0.1_10.tar.gz
-# https://github.com/adoptium/temurin18-binaries/releases/download/jdk-18.0.1%2B10/OpenJDK18U-jdk_x64_linux_hotspot_18.0.1_10.tar.gz
-#
+# https://github.com/adoptium/temurin18-binaries/releases/download/jdk-18.0.2.1%2B1/OpenJDK18U-jdk_aarch64_linux_hotspot_18.0.2.1_1.tar.gz
+# https://github.com/adoptium/temurin18-binaries/releases/download/jdk-18.0.2.1%2B1/OpenJDK18U-jdk_x64_linux_hotspot_18.0.2.1_1.tar.gz
 ENV OPENJDK_VER_MAJOR 18
-ENV OPENJDK_VER_NAME 18.0.2_9
-ENV OPENJDK_VER_ESCAPED jdk-18.0.2%2B9
-ENV OPENJDK_VER_DIRNAME jdk-18.0.2+9
-ENV OPENJDK_VER_DIRNAME2 jdk-18.0.2-9
+ENV OPENJDK_VER_NAME 18.0.2.1_1
+ENV OPENJDK_VER_ESCAPED 18.0.2.1%2B1
+ENV OPENJDK_VER_DIRNAME jdk-18.0.2.1+1
+ENV OPENJDK_VER_DIRNAME2 jdk-18.0.2.1-1
 ENV JAVA_HOME /opt/jvm/${OPENJDK_VER_DIRNAME2}
 RUN if [ x"$(uname -m)"x = x"x86_64"x ] ; then \
     export OPENJDK_FILENAME=OpenJDK${OPENJDK_VER_MAJOR}U-jdk_x64_linux_hotspot_${OPENJDK_VER_NAME} && \
-    curl -fLO https://github.com/adoptium/temurin${OPENJDK_VER_MAJOR}-binaries/releases/download/${OPENJDK_VER_ESCAPED}/${OPENJDK_FILENAME}.tar.gz && \
+    echo "getting https://github.com/adoptium/temurin${OPENJDK_VER_MAJOR}-binaries/releases/download/jdk-${OPENJDK_VER_ESCAPED}/${OPENJDK_FILENAME}.tar.gz " && \
+    curl -fLO https://github.com/adoptium/temurin${OPENJDK_VER_MAJOR}-binaries/releases/download/jdk-${OPENJDK_VER_ESCAPED}/${OPENJDK_FILENAME}.tar.gz && \
     mkdir -p /opt/jvm && \
     tar xzf ${OPENJDK_FILENAME}.tar.gz -C /opt/jvm && \
     mv /opt/jvm/${OPENJDK_VER_DIRNAME} /opt/jvm/${OPENJDK_VER_DIRNAME2} && \
@@ -67,7 +66,8 @@ RUN if [ x"$(uname -m)"x = x"x86_64"x ] ; then \
     fi
 RUN if [ x"$(uname -m)"x = x"aarch64"x ] ; then \
     export OPENJDK_FILENAME=OpenJDK${OPENJDK_VER_MAJOR}U-jdk_aarch64_linux_hotspot_${OPENJDK_VER_NAME} && \
-    curl -fLO https://github.com/adoptium/temurin${OPENJDK_VER_MAJOR}-binaries/releases/download/${OPENJDK_VER_ESCAPED}/${OPENJDK_FILENAME}.tar.gz && \
+    echo "https://github.com/adoptium/temurin${OPENJDK_VER_MAJOR}-binaries/releases/download/jdk-${OPENJDK_VER_ESCAPED}/${OPENJDK_FILENAME}.tar.gz" && \
+    curl -fLO https://github.com/adoptium/temurin${OPENJDK_VER_MAJOR}-binaries/releases/download/jdk-${OPENJDK_VER_ESCAPED}/${OPENJDK_FILENAME}.tar.gz && \
     mkdir -p /opt/jvm && \
     tar xzf ${OPENJDK_FILENAME}.tar.gz -C /opt/jvm && \
     mv /opt/jvm/${OPENJDK_VER_DIRNAME} /opt/jvm/${OPENJDK_VER_DIRNAME2} && \
