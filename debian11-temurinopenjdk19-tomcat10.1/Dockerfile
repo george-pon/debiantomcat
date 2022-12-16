@@ -19,23 +19,23 @@ ENV TZ Asia/Tokyo
 
 # install etc utils
 RUN apt install -y \
-        curl \
-        wget \
-        dnsutils \
-        iproute2 \
-        gnupg2 \
-        jq \
-        lsof \
-        netcat \
-        net-tools \
-        procps \
-        rsync \
-        sudo \
-        tcpdump \
-        traceroute \
-        tree \
-        unzip \
-        zip \
+    curl \
+    wget \
+    dnsutils \
+    iproute2 \
+    gnupg2 \
+    jq \
+    lsof \
+    netcat \
+    net-tools \
+    procps \
+    rsync \
+    sudo \
+    tcpdump \
+    traceroute \
+    tree \
+    unzip \
+    zip \
     && apt clean all
 
 # install Java from debian package
@@ -83,7 +83,7 @@ ENV PATH /opt/jvm/${OPENJDK_VER_DIRNAME2}/bin:$PATH
 
 # https://tomcat.apache.org/
 # install Tomcat (remove host-manager and manager)
-ENV TOMCAT_VERSION 10.1.1
+ENV TOMCAT_VERSION 10.1.4
 RUN groupadd -g 998 tomcat && \
     useradd -m -u 998 -g 998 -d /opt/tomcat10 -s /bin/false tomcat && \
     curl -LO https://ftp.jaist.ac.jp/pub/apache/tomcat/tomcat-10/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz && \
