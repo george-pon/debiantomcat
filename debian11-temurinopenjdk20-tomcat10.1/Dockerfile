@@ -1,7 +1,7 @@
 FROM debian:11
 
-ENV DEBIANTOMCAT_VERSION build-target-8
-ENV DEBIANTOMCAT_VERSION debian11-temurinopenjdk19-tomcat10.1
+ENV DEBIANTOMCAT_VERSION build-target-9
+ENV DEBIANTOMCAT_VERSION debian11-temurinopenjdk20-tomcat10.1
 ENV DEBIANTOMCAT_IMAGE georgesan/debiantomcat
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -53,11 +53,13 @@ RUN apt install -y \
 # https://github.com/adoptium/temurin19-binaries/releases/download/jdk-19.0.1%2B10/OpenJDK19U-jdk_aarch64_linux_hotspot_19.0.1_10.tar.gz
 # https://github.com/adoptium/temurin19-binaries/releases/download/jdk-19.0.2%2B7/OpenJDK19U-jdk_x64_linux_hotspot_19.0.2_7.tar.gz
 # https://github.com/adoptium/temurin19-binaries/releases/download/jdk-19.0.2%2B7/OpenJDK19U-jdk_aarch64_linux_hotspot_19.0.2_7.tar.gz
-ENV OPENJDK_VER_MAJOR 19
-ENV OPENJDK_VER_NAME 19.0.2_7
-ENV OPENJDK_VER_ESCAPED 19.0.2%2B7
-ENV OPENJDK_VER_DIRNAME jdk-19.0.2+7
-ENV OPENJDK_VER_DIRNAME2 jdk-19.0.2-7
+# https://github.com/adoptium/temurin20-binaries/releases/download/jdk-20%2B36/OpenJDK20U-jdk_aarch64_linux_hotspot_20_36.tar.gz
+# https://github.com/adoptium/temurin20-binaries/releases/download/jdk-20%2B36/OpenJDK20U-jdk_x64_linux_hotspot_20_36.tar.gz
+ENV OPENJDK_VER_MAJOR 20
+ENV OPENJDK_VER_NAME 20_36
+ENV OPENJDK_VER_ESCAPED 20%2B36
+ENV OPENJDK_VER_DIRNAME jdk-20+36
+ENV OPENJDK_VER_DIRNAME2 jdk-20-36
 ENV JAVA_HOME /opt/jvm/${OPENJDK_VER_DIRNAME2}
 RUN if [ x"$(uname -m)"x = x"x86_64"x ] ; then \
     export OPENJDK_FILENAME=OpenJDK${OPENJDK_VER_MAJOR}U-jdk_x64_linux_hotspot_${OPENJDK_VER_NAME} && \
@@ -85,7 +87,7 @@ ENV PATH /opt/jvm/${OPENJDK_VER_DIRNAME2}/bin:$PATH
 
 # https://tomcat.apache.org/
 # install Tomcat (remove host-manager and manager)
-ENV TOMCAT_VERSION 10.1.6
+ENV TOMCAT_VERSION 10.1.7
 RUN groupadd -g 998 tomcat && \
     useradd -m -u 998 -g 998 -d /opt/tomcat10 -s /bin/false tomcat && \
     curl -LO https://ftp.jaist.ac.jp/pub/apache/tomcat/tomcat-10/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz && \
