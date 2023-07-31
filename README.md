@@ -1,6 +1,6 @@
 # debiantomcat
 
-debian11 + adoptium openjdk18 + tomcat10
+debian12 + Eclipse Temurin openjdk20 + tomcat10.1
 
 ### Dockerfile
 
@@ -8,7 +8,7 @@ debian11 + adoptium openjdk18 + tomcat10
 
 ### tags
 
-* debian11-adoptiumopenjdk18-tomcat10
+* debian12-temurinopenjdk20-tomcat10.1
 
 ### arch
 
