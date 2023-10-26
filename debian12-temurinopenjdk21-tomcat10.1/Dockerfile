@@ -61,11 +61,13 @@ RUN apt install -y \
 # https://github.com/adoptium/temurin20-binaries/releases/download/jdk-20.0.2%2B9/OpenJDK20U-jdk_aarch64_linux_hotspot_20.0.2_9.tar.gz
 # https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21%2B35/OpenJDK21U-jdk_aarch64_linux_hotspot_21_35.tar.gz
 # https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21%2B35/OpenJDK21U-jdk_x64_linux_hotspot_21_35.tar.gz
+# https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.1%2B12/OpenJDK21U-debugimage_aarch64_linux_hotspot_21.0.1_12.tar.gz
+# https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.1%2B12/OpenJDK21U-debugimage_x64_linux_hotspot_21.0.1_12.tar.gz
 ENV OPENJDK_VER_MAJOR 21
-ENV OPENJDK_VER_NAME 21_35
-ENV OPENJDK_VER_ESCAPED 21%2B35
-ENV OPENJDK_VER_DIRNAME jdk-21+35
-ENV OPENJDK_VER_DIRNAME2 jdk-21-35
+ENV OPENJDK_VER_NAME 21.0.1_12
+ENV OPENJDK_VER_ESCAPED 21.0.1%2B12
+ENV OPENJDK_VER_DIRNAME jdk-21.0.1+12
+ENV OPENJDK_VER_DIRNAME2 jdk-21.0.1-12
 ENV JAVA_HOME /opt/jvm/${OPENJDK_VER_DIRNAME2}
 RUN if [ x"$(uname -m)"x = x"x86_64"x ] ; then \
     export OPENJDK_FILENAME=OpenJDK${OPENJDK_VER_MAJOR}U-jdk_x64_linux_hotspot_${OPENJDK_VER_NAME} && \
@@ -93,7 +95,7 @@ ENV PATH /opt/jvm/${OPENJDK_VER_DIRNAME2}/bin:$PATH
 
 # https://tomcat.apache.org/
 # install Tomcat (remove host-manager and manager)
-ENV TOMCAT_VERSION 10.1.14
+ENV TOMCAT_VERSION 10.1.15
 RUN groupadd -g 995 tomcat && \
     useradd -m -u 995 -g 995 -d /opt/tomcat10 -s /bin/false tomcat && \
     curl -LO https://ftp.jaist.ac.jp/pub/apache/tomcat/tomcat-10/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz && \
