@@ -63,11 +63,13 @@ RUN apt install -y \
 # https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21%2B35/OpenJDK21U-jdk_x64_linux_hotspot_21_35.tar.gz
 # https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.1%2B12/OpenJDK21U-debugimage_aarch64_linux_hotspot_21.0.1_12.tar.gz
 # https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.1%2B12/OpenJDK21U-debugimage_x64_linux_hotspot_21.0.1_12.tar.gz
+# https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.2%2B13/OpenJDK21U-debugimage_aarch64_linux_hotspot_21.0.2_13.tar.gz
+# https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.2%2B13/OpenJDK21U-debugimage_x64_linux_hotspot_21.0.2_13.tar.gz
 ENV OPENJDK_VER_MAJOR 21
-ENV OPENJDK_VER_NAME 21.0.1_12
-ENV OPENJDK_VER_ESCAPED 21.0.1%2B12
-ENV OPENJDK_VER_DIRNAME jdk-21.0.1+12
-ENV OPENJDK_VER_DIRNAME2 jdk-21.0.1-12
+ENV OPENJDK_VER_NAME 21.0.2_13
+ENV OPENJDK_VER_ESCAPED 21.0.2%2B13
+ENV OPENJDK_VER_DIRNAME jdk-21.0.2+13
+ENV OPENJDK_VER_DIRNAME2 jdk-21.0.2-13
 ENV JAVA_HOME /opt/jvm/${OPENJDK_VER_DIRNAME2}
 RUN if [ x"$(uname -m)"x = x"x86_64"x ] ; then \
     export OPENJDK_FILENAME=OpenJDK${OPENJDK_VER_MAJOR}U-jdk_x64_linux_hotspot_${OPENJDK_VER_NAME} && \
