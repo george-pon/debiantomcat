@@ -66,10 +66,10 @@ RUN apt install -y \
 # https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.2%2B13/OpenJDK21U-debugimage_aarch64_linux_hotspot_21.0.2_13.tar.gz
 # https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.2%2B13/OpenJDK21U-debugimage_x64_linux_hotspot_21.0.2_13.tar.gz
 ENV OPENJDK_VER_MAJOR 22
-ENV OPENJDK_VER_NAME 22.0.1_8
-ENV OPENJDK_VER_ESCAPED 22.0.1%2B8
-ENV OPENJDK_VER_DIRNAME jdk-22.0.1+8
-ENV OPENJDK_VER_DIRNAME2 jdk-22.0.1-8
+ENV OPENJDK_VER_NAME 22.0.2_9
+ENV OPENJDK_VER_ESCAPED 22.0.2%2B9
+ENV OPENJDK_VER_DIRNAME jdk-22.0.2+9
+ENV OPENJDK_VER_DIRNAME2 jdk-22.0.2-9
 ENV JAVA_HOME /opt/jvm/${OPENJDK_VER_DIRNAME2}
 RUN if [ x"$(uname -m)"x = x"x86_64"x ] ; then \
     export OPENJDK_FILENAME=OpenJDK${OPENJDK_VER_MAJOR}U-jdk_x64_linux_hotspot_${OPENJDK_VER_NAME} && \
@@ -97,7 +97,7 @@ ENV PATH /opt/jvm/${OPENJDK_VER_DIRNAME2}/bin:$PATH
 
 # https://tomcat.apache.org/
 # install Tomcat (remove host-manager and manager)
-ENV TOMCAT_VERSION 10.1.25
+ENV TOMCAT_VERSION 10.1.26
 RUN groupadd -g 995 tomcat && \
     useradd -m -u 995 -g 995 -d /opt/tomcat10 -s /bin/false tomcat && \
     curl -LO https://ftp.jaist.ac.jp/pub/apache/tomcat/tomcat-10/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz && \
