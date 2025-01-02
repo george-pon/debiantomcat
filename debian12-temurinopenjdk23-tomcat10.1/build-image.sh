@@ -48,7 +48,7 @@ function f_docker_build() {
     # check use buildx
     if [ x"$USE_BUILDX"x = x""x ] ; then
         if docker buildx ls 1>/dev/null 2>/dev/null ; then
-            if docker buildx ls 2>/dev/null | grep linux/arm/v7 ; then
+            if docker buildx ls 2>/dev/null | grep linux/arm64 ; then
                 if docker buildx ls 2>/dev/null | grep linux/amd64 ; then
                     USE_BUILDX=yes
                 fi
