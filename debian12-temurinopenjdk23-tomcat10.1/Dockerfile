@@ -1,8 +1,8 @@
 FROM debian:12
 
-ENV DEBIANTOMCAT_VERSION build-target-13
-ENV DEBIANTOMCAT_VERSION debian12-temurinopenjdk23-tomcat10.1
-ENV DEBIANTOMCAT_IMAGE georgesan/debiantomcat
+ENV DEBIANTOMCAT_VERSION=build-target-13
+ENV DEBIANTOMCAT_VERSION=debian12-temurinopenjdk23-tomcat10.1
+ENV DEBIANTOMCAT_IMAGE=georgesan/debiantomcat
 
 ENV DEBIAN_FRONTEND noninteractive
 

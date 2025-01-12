@@ -9,9 +9,17 @@ function cdr() {
     echo "$@"
 }
 
+function env_search() {
+    if [ $# -eq 0 ]; then
+        echo "NOT_FOUND"
+    fi
+    arg_name=$1
+    cat Dockerfile | sed -e 's%ENV '"$arg_name"'=%ENV '"$arg_name"' %g' | awk '/^ENV '"$arg_name"'[ ]/ {print $3;}'
+}
+
 function f_docker_build() {
-    TAG_LIST=$(awk '/^ENV DEBIANTOMCAT_VERSION/ {print $3;}' Dockerfile)
-    IMAGE_NAME=${IMAGE_PREFIX}$(awk '/^ENV DEBIANTOMCAT_IMAGE/ {print $3;}' Dockerfile)
+    TAG_LIST=$( env_search DEBIANTOMCAT_VERSION )
+    IMAGE_NAME=${IMAGE_PREFIX}$( env_search DEBIANTOMCAT_IMAGE )
     # TAG_LIST="$TAG_LIST monthly$(date +%Y%m) "
     TAG_CAR=$(car $TAG_LIST)
     TAG_CDR=$(cdr $TAG_LIST)
@@ -78,6 +86,12 @@ function f_docker_build() {
             fi
             sleep 3
             docker buildx imagetools inspect ${IMAGE_NAME}:${TAG_CAR}
+            RC=$?
+            if [ $RC -ne 0 ]; then
+                echo "ERROR: docker build failed."
+                return 1
+            fi
+            sleep 3
         done
     else
         export DOCKER_BUILDKIT=1
