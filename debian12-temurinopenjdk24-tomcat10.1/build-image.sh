@@ -74,27 +74,29 @@ function f_docker_build() {
             armv7l) PLATOPT='--platform=linux/arm/v7' ;;
             aarch64) PLATOPT='--platform=linux/amd64,linux/arm64' ;;
         esac
+	DOCKER_TAG_OPT=""
         for TAG_CAR in $TAG_LIST
         do
-            export DOCKER_BUILDKIT=1
-            echo $SUDO_DOCKER docker buildx build $BUILD_OPT -t ${IMAGE_NAME}:${TAG_CAR} $PLATOPT --push  .
-            $SUDO_DOCKER docker buildx build $BUILD_OPT -t ${IMAGE_NAME}:${TAG_CAR} $PLATOPT --push  .
-            RC=$?
-            if [ $RC -ne 0 ]; then
-                echo "ERROR: docker build failed."
-                return 1
-            fi
-            echo "sleeping 15 seconds."
-            sleep 15
-            docker buildx imagetools inspect ${IMAGE_NAME}:${TAG_CAR}
-            RC=$?
-            if [ $RC -ne 0 ]; then
-                echo "ERROR: docker build failed."
-                return 1
-            fi
-            echo "sleeping 15 seconds."
-            sleep 15
-        done
+	    DOCKER_TAG_OPT="${DOCKER_TAG_OPT} -t ${IMAGE_NAME}:${TAG_CAR}"
+	done
+        export DOCKER_BUILDKIT=1
+        echo $SUDO_DOCKER docker buildx build $BUILD_OPT ${DOCKER_TAG_OPT} $PLATOPT --push  .
+        $SUDO_DOCKER docker buildx build $BUILD_OPT ${DOCKER_TAG_OPT} $PLATOPT --push  .
+        RC=$?
+        if [ $RC -ne 0 ]; then
+            echo "ERROR: docker build failed."
+            return 1
+        fi
+        echo "sleeping 15 seconds."
+        sleep 15
+        docker buildx imagetools inspect ${IMAGE_NAME}:${TAG_CAR}
+        RC=$?
+        if [ $RC -ne 0 ]; then
+            echo "ERROR: docker build failed."
+            return 1
+        fi
+        echo "sleeping 15 seconds."
+        sleep 15
     else
         export DOCKER_BUILDKIT=1
         echo $SUDO_DOCKER docker build $BUILD_OPT -t ${IMAGE_NAME}:${TAG_CAR} .
