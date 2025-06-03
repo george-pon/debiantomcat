@@ -38,6 +38,15 @@ RUN apt install -y \
     zip \
     && apt clean all
 
+
+# install Java from temurin package
+RUN apt install -y wget apt-transport-https
+RUN wget -qO - https://packages.adoptium.net/artifactory/api/gpg/key/public | gpg --dearmor | tee /etc/apt/trusted.gpg.d/adoptium.gpg > /dev/null
+RUN echo "deb https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSION_CODENAME/{print$2}' /etc/os-release) main" | tee /etc/apt/sources.list.d/adoptium.list
+RUN apt update
+RUN apt search temurin
+RUN apt install -y temurin-24-jdk
+
 # install Java from debian package
 # RUN apt install -y openjdk-17-jdk && apt clean all
 
@@ -79,34 +88,34 @@ ENV OPENJDK_VER_NAME 24.0.1_9
 ENV OPENJDK_VER_ESCAPED 24.0.1%2B9
 ENV OPENJDK_VER_DIRNAME jdk-24.0.1+9
 ENV OPENJDK_VER_DIRNAME2 jdk-24.0.1-9
-ENV JAVA_HOME /opt/jvm/${OPENJDK_VER_DIRNAME2}
-RUN if [ x"$(uname -m)"x = x"x86_64"x ] ; then \
-    export OPENJDK_FILENAME=OpenJDK${OPENJDK_VER_MAJOR}U-jdk_x64_linux_hotspot_${OPENJDK_VER_NAME} && \
-    echo "getting https://github.com/adoptium/temurin${OPENJDK_VER_MAJOR}-binaries/releases/download/jdk-${OPENJDK_VER_ESCAPED}/${OPENJDK_FILENAME}.tar.gz " && \
-    curl -fLO https://github.com/adoptium/temurin${OPENJDK_VER_MAJOR}-binaries/releases/download/jdk-${OPENJDK_VER_ESCAPED}/${OPENJDK_FILENAME}.tar.gz && \
-    mkdir -p /opt/jvm && \
-    tar xzf ${OPENJDK_FILENAME}.tar.gz -C /opt/jvm && \
-    mv /opt/jvm/${OPENJDK_VER_DIRNAME} /opt/jvm/${OPENJDK_VER_DIRNAME2} && \
-    /bin/echo '#!/bin/bash' >> /etc/profile.d/javapath.sh && \
-    /bin/echo "export PATH=/opt/jvm/${OPENJDK_VER_DIRNAME2}/bin:"'$PATH' >> /etc/profile.d/javapath.sh ; \
-    rm ${OPENJDK_FILENAME}.tar.gz ; \
-    fi
-RUN if [ x"$(uname -m)"x = x"aarch64"x ] ; then \
-    export OPENJDK_FILENAME=OpenJDK${OPENJDK_VER_MAJOR}U-jdk_aarch64_linux_hotspot_${OPENJDK_VER_NAME} && \
-    echo "https://github.com/adoptium/temurin${OPENJDK_VER_MAJOR}-binaries/releases/download/jdk-${OPENJDK_VER_ESCAPED}/${OPENJDK_FILENAME}.tar.gz" && \
-    curl -fLO https://github.com/adoptium/temurin${OPENJDK_VER_MAJOR}-binaries/releases/download/jdk-${OPENJDK_VER_ESCAPED}/${OPENJDK_FILENAME}.tar.gz && \
-    mkdir -p /opt/jvm && \
-    tar xzf ${OPENJDK_FILENAME}.tar.gz -C /opt/jvm && \
-    mv /opt/jvm/${OPENJDK_VER_DIRNAME} /opt/jvm/${OPENJDK_VER_DIRNAME2} && \
-    /bin/echo '#!/bin/bash' >> /etc/profile.d/javapath.sh && \
-    /bin/echo "export PATH=/opt/jvm/${OPENJDK_VER_DIRNAME2}/bin:"'$PATH' >> /etc/profile.d/javapath.sh ; \
-    rm ${OPENJDK_FILENAME}.tar.gz ; \
-    fi
-ENV PATH /opt/jvm/${OPENJDK_VER_DIRNAME2}/bin:$PATH
+# ENV JAVA_HOME /opt/jvm/${OPENJDK_VER_DIRNAME2}
+# RUN if [ x"$(uname -m)"x = x"x86_64"x ] ; then \
+#     export OPENJDK_FILENAME=OpenJDK${OPENJDK_VER_MAJOR}U-jdk_x64_linux_hotspot_${OPENJDK_VER_NAME} && \
+#     echo "getting https://github.com/adoptium/temurin${OPENJDK_VER_MAJOR}-binaries/releases/download/jdk-${OPENJDK_VER_ESCAPED}/${OPENJDK_FILENAME}.tar.gz " && \
+#     curl -fLO https://github.com/adoptium/temurin${OPENJDK_VER_MAJOR}-binaries/releases/download/jdk-${OPENJDK_VER_ESCAPED}/${OPENJDK_FILENAME}.tar.gz && \
+#     mkdir -p /opt/jvm && \
+#     tar xzf ${OPENJDK_FILENAME}.tar.gz -C /opt/jvm && \
+#     mv /opt/jvm/${OPENJDK_VER_DIRNAME} /opt/jvm/${OPENJDK_VER_DIRNAME2} && \
+#     /bin/echo '#!/bin/bash' >> /etc/profile.d/javapath.sh && \
+#     /bin/echo "export PATH=/opt/jvm/${OPENJDK_VER_DIRNAME2}/bin:"'$PATH' >> /etc/profile.d/javapath.sh ; \
+#     rm ${OPENJDK_FILENAME}.tar.gz ; \
+#     fi
+# RUN if [ x"$(uname -m)"x = x"aarch64"x ] ; then \
+#     export OPENJDK_FILENAME=OpenJDK${OPENJDK_VER_MAJOR}U-jdk_aarch64_linux_hotspot_${OPENJDK_VER_NAME} && \
+#     echo "https://github.com/adoptium/temurin${OPENJDK_VER_MAJOR}-binaries/releases/download/jdk-${OPENJDK_VER_ESCAPED}/${OPENJDK_FILENAME}.tar.gz" && \
+#     curl -fLO https://github.com/adoptium/temurin${OPENJDK_VER_MAJOR}-binaries/releases/download/jdk-${OPENJDK_VER_ESCAPED}/${OPENJDK_FILENAME}.tar.gz && \
+#     mkdir -p /opt/jvm && \
+#     tar xzf ${OPENJDK_FILENAME}.tar.gz -C /opt/jvm && \
+#     mv /opt/jvm/${OPENJDK_VER_DIRNAME} /opt/jvm/${OPENJDK_VER_DIRNAME2} && \
+#     /bin/echo '#!/bin/bash' >> /etc/profile.d/javapath.sh && \
+#     /bin/echo "export PATH=/opt/jvm/${OPENJDK_VER_DIRNAME2}/bin:"'$PATH' >> /etc/profile.d/javapath.sh ; \
+#     rm ${OPENJDK_FILENAME}.tar.gz ; \
+#     fi
+# ENV PATH /opt/jvm/${OPENJDK_VER_DIRNAME2}/bin:$PATH
 
 # https://tomcat.apache.org/
 # install Tomcat (remove host-manager and manager)
-ENV TOMCAT_VERSION 10.1.40
+ENV TOMCAT_VERSION 10.1.41
 RUN groupadd -g 995 tomcat && \
     useradd -m -u 995 -g 995 -d /opt/tomcat10 -s /bin/false tomcat && \
     curl -LO https://ftp.jaist.ac.jp/pub/apache/tomcat/tomcat-10/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz && \

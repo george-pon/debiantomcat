@@ -16,11 +16,12 @@ IMAGE_NAME=${IMAGE_PREFIX}$( env_search DEBIANTOMCAT_IMAGE )
 
 REPO_SERV=docker.io/
 
+#         -p 8180:8080 \
+
 for i in $TAG_LIST
 do
     ${WINPTY_CMD} docker run -i -t --rm \
         -e http_proxy=${http_proxy} -e https_proxy=${https_proxy} -e no_proxy="${no_proxy}" \
-        -p 8180:8080 \
         ${IMAGE_NAME}:${i}
     break
 done
