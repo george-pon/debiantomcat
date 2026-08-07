@@ -115,7 +115,7 @@ ENV OPENJDK_VER_MAJOR=26
 
 # https://tomcat.apache.org/
 # install Tomcat (remove host-manager and manager)
-ENV TOMCAT_VERSION=11.0.23
+ENV TOMCAT_VERSION=11.0.24
 RUN groupadd -g 995 tomcat && \
     useradd -m -u 995 -g 995 -d /opt/tomcat11 -s /bin/false tomcat && \
     curl -LO https://dlcdn.apache.org/tomcat/tomcat-11/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz && \
