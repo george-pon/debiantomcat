@@ -114,6 +114,7 @@ ENV OPENJDK_VER_MAJOR=26
 # ENV PATH=/opt/jvm/${OPENJDK_VER_DIRNAME2}/bin:$PATH
 
 # https://tomcat.apache.org/
+# https://downloads.apache.org/tomcat/tomcat-11/v11.0.27/bin/apache-tomcat-11.0.27.tar.gz
 # install Tomcat (remove host-manager and manager)
 ENV TOMCAT_VERSION=11.0.27
 RUN groupadd -g 995 tomcat && \

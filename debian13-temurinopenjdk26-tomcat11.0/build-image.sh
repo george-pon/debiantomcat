@@ -22,7 +22,33 @@ function env_search() {
     cat Dockerfile | sed -e 's%ENV '"$arg_name"'=%ENV '"$arg_name"' %g' | awk '/^ENV '"$arg_name"'[ ]/ {print $3;}'
 }
 
+function f-tomcat11-get-version() {
+    URL="https://downloads.apache.org/tomcat/tomcat-11/"
+
+    version=$(
+        curl -k -fsSL --retry 3 --max-time 15 "$URL" |
+        grep -oE 'v11\.0\.[0-9]+/' |
+        sed 's|^v||; s|/$||' |
+        sort -V |
+        tail -n 1
+    )
+
+    if [[ -z "$version" ]]; then
+        echo "Failed to get Tomcat version" >&2
+        exit 1
+    fi
+
+    echo "$version"
+}
+
+function f-edit-dockerfile() {
+    tomcat_version=$( f-tomcat11-get-version )
+    sed -i -e 's/ENV TOMCAT_VERSION=.*$/ENV TOMCAT_VERSION='"$tomcat_version"'/g' Dockerfile
+}
+
+
 function f_docker_build() {
+    f-edit-dockerfile
     TAG_LIST=$( env_search DEBIANTOMCAT_VERSION )
     IMAGE_NAME=${IMAGE_PREFIX}$( env_search DEBIANTOMCAT_IMAGE )
     # TAG_LIST="$TAG_LIST monthly$(date +%Y%m) "
